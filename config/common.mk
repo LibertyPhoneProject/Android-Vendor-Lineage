@@ -111,7 +111,6 @@ PRODUCT_PACKAGES += \
     LineageParts \
     LineageSettingsProvider \
     LineageSetupWizard \
-    Camera \
     Updater
 
 # Themes
