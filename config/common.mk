@@ -111,7 +111,7 @@ PRODUCT_PACKAGES += \
     LineageParts \
     LineageSettingsProvider \
     LineageSetupWizard \
-    Camera3 \
+    CameraKuzon \
     Updater
 
 # Themes
