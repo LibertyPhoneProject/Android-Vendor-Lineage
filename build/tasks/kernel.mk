@@ -26,7 +26,7 @@
 #   TARGET_KERNEL_SELINUX_CONFIG       = SELinux defconfig, optional
 #   TARGET_KERNEL_ADDITIONAL_CONFIG    = Additional defconfig, optional
 #
-#   TARGET_KERNEL_CLANG_COMPILE        = Compile kernel with clang, defaults to false
+#   TARGET_KERNEL_CLANG_COMPILE        = Compile kernel with clang, defaults to true
 #
 #   TARGET_KERNEL_CLANG_VERSION        = Clang prebuilts version, optional, defaults to clang-stable
 #
@@ -230,7 +230,7 @@ endif
 ifeq ($(or $(FULL_RECOVERY_KERNEL_BUILD), $(FULL_KERNEL_BUILD)),true)
 # Add host bin out dir to path
 PATH_OVERRIDE := PATH=$(KERNEL_BUILD_OUT_PREFIX)$(HOST_OUT_EXECUTABLES):$$PATH
-ifeq ($(TARGET_KERNEL_CLANG_COMPILE),true)
+ifneq ($(TARGET_KERNEL_CLANG_COMPILE),false)
     ifneq ($(TARGET_KERNEL_CLANG_VERSION),)
         KERNEL_CLANG_VERSION := clang-$(TARGET_KERNEL_CLANG_VERSION)
     else
@@ -517,16 +517,16 @@ ALL_PREBUILT += $(INSTALLED_KERNEL_TARGET)
 endif
 
 ifeq ($(RECOVERY_KERNEL_COPY),true)
-file := $(INSTALLED_RECOVERY_KERNEL)
+file := $(INSTALLED_RECOVERY_KERNEL_TARGET)
 ALL_PREBUILT += $(file)
 $(file) : $(RECOVERY_BIN) | $(ACP)
 	$(transform-prebuilt-to-target)
 
-ALL_PREBUILT += $(INSTALLED_RECOVERY_KERNEL)
+ALL_PREBUILT += $(INSTALLED_RECOVERY_KERNEL_TARGET)
 endif
 
 .PHONY: recovery-kernel
-recovery-kernel: $(INSTALLED_RECOVERY_KERNEL)
+recovery-kernel: $(INSTALLED_RECOVERY_KERNEL_TARGET)
 
 .PHONY: kernel
 kernel: $(INSTALLED_KERNEL_TARGET)
